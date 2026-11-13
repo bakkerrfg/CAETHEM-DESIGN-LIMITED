@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAETHEM DESIGN LIMITED | Creative Digital Solutions</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    },
+                    colors: {
+                        caethem: {
+                            bg: '#050505',
+                            card: '#121212',
+                            border: '#262626',
+                            accent: '#8b5cf6', /* Violet */
+                            accent2: '#d946ef', /* Fuchsia */
+                            textMuted: '#a3a3a3',
+                            textWhite: '#ffffff'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #ffffff;
+        }
+        .bg-glow {
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(139, 92, 246, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(217, 70, 239, 0.05), transparent 25%);
+            background-attachment: fixed;
+        }
+        .spa-view {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .spa-view.active {
+            display: block;
+            opacity: 1;
+        }
+        .form-input {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid #262626;
+            background-color: #050505;
+            color: #ffffff;
+            transition: all 0.2s;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #8b5cf6, #d946ef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col bg-glow relative">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-caethem-bg/85 backdrop-blur-xl border-b border-caethem-border">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="#home" class="flex items-center group relative z-10">
+                    <div class="w-10 h-10 border border-caethem-accent/40 bg-caethem-accent/10 rounded-lg flex items-center justify-center mr-3 group-hover:scale-105 transition-transform shadow-[0_0_15px_rgba(139,92,246,0.15)]">
+                        <svg class="w-5 h-5 text-caethem-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                    </div>
+                    <span class="font-display font-bold text-xl tracking-wide text-caethem-textWhite uppercase mt-0.5">Caethem Design</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 relative z-10">
+                    <a href="#home" class="text-sm font-semibold text-caethem-textMuted hover:text-caethem-textWhite uppercase tracking-widest transition-colors">Software</a>
+                    <a href="#support" class="text-sm font-semibold text-caethem-textMuted hover:text-caethem-textWhite uppercase tracking-widest transition-colors">Support</a>
+                    <a href="#support" class="px-6 py-2.5 rounded-lg bg-caethem-textWhite text-caethem-bg text-sm font-bold uppercase tracking-widest hover:bg-caethem-accent hover:text-white transition-colors">
+                        Connect
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center relative z-10">
+                    <button id="mobileMenuBtn" class="text-caethem-textMuted hover:text-white transition-colors">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7h16M4 12h16M4 17h16"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-caethem-card border-b border-caethem-border relative z-10 shadow-2xl">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <a href="#home" class="block px-4 py-3 text-sm font-semibold text-caethem-textMuted hover:text-white uppercase tracking-widest border-b border-caethem-border/50">Software</a>
+                <a href="#support" class="block px-4 py-3 text-sm font-semibold text-caethem-textMuted hover:text-white uppercase tracking-widest border-b border-caethem-border/50">Support</a>
+                <a href="#privacy" class="block px-4 py-3 text-sm font-semibold text-caethem-textMuted hover:text-white uppercase tracking-widest">Privacy Policy</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow pt-20 relative z-10">
+        
+        <!-- ==================== HOME VIEW ==================== -->
+        <div id="view-home" class="spa-view active">
+            <!-- Hero -->
+            <section class="py-24 lg:py-32 px-6">
+                <div class="max-w-5xl mx-auto text-center">
+                    <div class="inline-flex items-center px-5 py-1.5 rounded-full border border-caethem-accent/30 bg-caethem-accent/10 text-caethem-accent text-xs font-bold tracking-widest uppercase mb-8 shadow-[0_0_15px_rgba(139,92,246,0.1)]">
+                        Bexleyheath • Creative Studio
+                    </div>
+                    <h1 class="font-display font-extrabold text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-8">
+                        Architecting <br/>
+                        <span class="text-gradient">Digital Visions.</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-caethem-textMuted max-w-2xl mx-auto font-light leading-relaxed">
+                        CAETHEM DESIGN LIMITED specializes in producing high-fidelity interface frameworks, AR utilities, and immersive digital design environments for the Apple ecosystem.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Projects -->
+            <section class="py-20 px-6 border-t border-caethem-border bg-caethem-bg/80 backdrop-blur-md">
+                <div class="max-w-7xl mx-auto">
+                    <div class="mb-16">
+                        <h2 class="font-display text-4xl font-bold text-white mb-3">Studio Pipeline</h2>
+                        <p class="text-caethem-textMuted text-lg">Proprietary B2B software solutions currently in production.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- App 1 -->
+                        <div class="bg-caethem-card border border-caethem-border p-8 rounded-2xl hover:border-caethem-accent/50 transition-all duration-300 group shadow-lg">
+                            <div class="w-14 h-14 bg-caethem-bg border border-caethem-border rounded-xl flex items-center justify-center text-caethem-accent mb-8 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <h3 class="font-display text-3xl font-bold text-white mb-3">Caethem AR Space</h3>
+                            <div class="inline-flex items-center px-4 py-1.5 bg-caethem-bg text-caethem-textMuted border border-caethem-border text-xs font-bold uppercase tracking-wider rounded-full mb-5">
+                                <span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span> Beta Phase
+                            </div>
+                            <p class="text-caethem-textMuted text-base leading-relaxed">
+                                An augmented reality canvas for digital product designers. Leverages ARKit and Metal to project 3D wireframes and interface prototypes into physical environments.
+                            </p>
+                        </div>
+
+                        <!-- App 2 -->
+                        <div class="bg-caethem-card border border-caethem-border p-8 rounded-2xl hover:border-caethem-accent2/50 transition-all duration-300 group shadow-lg">
+                            <div class="w-14 h-14 bg-caethem-bg border border-caethem-border rounded-xl flex items-center justify-center text-caethem-accent2 mb-8 group-hover:scale-110 transition-transform">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                            </div>
+                            <h3 class="font-display text-3xl font-bold text-white mb-3">DesignCore Engine</h3>
+                            <div class="inline-flex items-center px-4 py-1.5 bg-caethem-bg text-caethem-textMuted border border-caethem-border text-xs font-bold uppercase tracking-wider rounded-full mb-5">
+                                <span class="w-2 h-2 rounded-full bg-blue-500 mr-2"></span> In Engineering
+                            </div>
+                            <p class="text-caethem-textMuted text-base leading-relaxed">
+                                A highly optimized 2D vector animation engine designed to drastically reduce battery consumption during complex UI motion graphics and state transitions.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Corporate Registry -->
+            <section class="py-24 px-6 border-t border-caethem-border">
+                <div class="max-w-4xl mx-auto">
+                    <div class="mb-10 text-center md:text-left">
+                        <h2 class="font-display text-4xl font-bold text-white mb-2">Corporate Registry</h2>
+                        <p class="text-caethem-textMuted text-base">Verified UK operational data.</p>
+                    </div>
+
+                    <div class="bg-caethem-card border border-caethem-border p-8 md:p-12 rounded-[2rem] relative overflow-hidden shadow-2xl">
+                        <div class="absolute -top-24 -right-24 w-48 h-48 bg-caethem-accent/10 blur-[50px] rounded-full pointer-events-none"></div>
+
+                        <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 pb-8 border-b border-caethem-border relative z-10">
+                            <div>
+                                <p class="text-xs font-bold text-caethem-accent uppercase tracking-widest mb-2">Registered Entity</p>
+                                <h3 class="text-3xl md:text-4xl font-display font-bold text-white uppercase tracking-wider">CAETHEM DESIGN LIMITED</h3>
+                            </div>
+                            <div class="mt-4 md:mt-0">
+                                <div class="px-5 py-2.5 bg-green-950/40 border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-widest rounded-lg flex items-center">
+                                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 shadow-[0_0_8px_rgba(74,222,128,0.8)]"></span> Active Status
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-10 relative z-10">
+                            <div>
+                                <p class="text-xs font-bold text-caethem-textMuted uppercase tracking-widest mb-3">Headquarters Address</p>
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-caethem-accent mr-4 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                    <p class="text-lg text-white leading-relaxed font-medium">
+                                        38 Lyndhurst Road<br>
+                                        BEXLEYHEATH, DA7 6DF<br>
+                                        United Kingdom
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==================== SUPPORT VIEW ==================== -->
+        <div id="view-support" class="spa-view pt-12 pb-32 px-6">
+            <div class="max-w-2xl mx-auto">
+                <div class="text-center mb-12">
+                    <h1 class="font-display text-5xl font-bold text-white mb-4">Enterprise Support</h1>
+                    <p class="text-caethem-textMuted text-lg">Contact our engineering operations for B2B beta access and technical inquiries.</p>
+                </div>
+
+                <div class="bg-caethem-card border border-caethem-border p-8 md:p-10 rounded-[2rem] shadow-2xl">
+                    <form action="https://formspree.io/f/YOUR_FORM_ID_HERE" method="POST" class="space-y-6">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-caethem-textMuted uppercase tracking-widest mb-2">Representative Name</label>
+                                <input type="text" name="name" required class="form-input" placeholder="Your Name">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-caethem-textMuted uppercase tracking-widest mb-2">Corporate Email</label>
+                                <input type="email" name="email" required class="form-input" placeholder="email@company.com">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-caethem-textMuted uppercase tracking-widest mb-2">Request Category</label>
+                            <select name="subject" class="form-input appearance-none">
+                                <option>Caethem AR Beta Access</option>
+                                <option>Technical Assistance</option>
+                                <option>Business Partnerships</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-caethem-textMuted uppercase tracking-widest mb-2">Message</label>
+                            <textarea name="message" rows="5" required class="form-input resize-none" placeholder="Provide operational context..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-gradient-to-r from-caethem-accent to-caethem-accent2 text-white font-bold tracking-widest uppercase rounded-xl hover:opacity-90 transition-opacity shadow-lg">
+                            Submit Request
+                        </button>
+                    </form>
+                </div>
+
+                <div class="mt-12 text-center p-8 bg-caethem-bg border border-caethem-border rounded-[2rem]">
+                    <p class="text-caethem-textMuted text-sm font-bold uppercase tracking-widest mb-2">Direct Comms</p>
+                    <a href="mailto:admin@caethemdesign.best" class="text-caethem-accent hover:text-white transition-colors text-xl md:text-2xl font-display mt-2 inline-block font-bold">admin@caethemdesign.best</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== PRIVACY VIEW ==================== -->
+        <div id="view-privacy" class="spa-view pt-12 pb-32 px-6">
+            <div class="max-w-4xl mx-auto bg-caethem-card border border-caethem-border p-10 md:p-16 rounded-[2rem] shadow-2xl">
+                <h1 class="font-display text-4xl font-bold text-white mb-2">Privacy Protocol</h1>
+                <p class="text-caethem-accent text-xs font-bold tracking-widest uppercase mb-10 pb-8 border-b border-caethem-border">Effective Date: April 22, 2024</p>
+                
+                <div class="space-y-8 text-caethem-textMuted text-base leading-relaxed">
+                    <p><strong>CAETHEM DESIGN LIMITED</strong> strictly enforces data protection standards. This document details our data handling procedures for our enterprise applications and corporate infrastructure.</p>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">1. Diagnostic Collection</h3>
+                        <p>We do not passively extract personal data. Our enterprise applications log anonymized crash reports and engine metrics solely to refine AR stability and reduce rendering latency.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">2. Information Processing</h3>
+                        <p>Information actively supplied by users through our B2B support terminals or beta registration forms is processed exclusively to deliver technical support and authenticate corporate access.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">3. UK Data Sovereignty (UK GDPR)</h3>
+                        <p>Operating out of Bexleyheath, United Kingdom, our protocols align strictly with the UK General Data Protection Regulation (UK GDPR). Corporate clients and individual users retain full authority to request audits, modifications, or erasure of their records via our support channels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== TERMS VIEW ==================== -->
+        <div id="view-terms" class="spa-view pt-12 pb-32 px-6">
+            <div class="max-w-4xl mx-auto bg-caethem-card border border-caethem-border p-10 md:p-16 rounded-[2rem] shadow-2xl">
+                <h1 class="font-display text-4xl font-bold text-white mb-2">Terms of Service</h1>
+                <p class="text-caethem-accent text-xs font-bold tracking-widest uppercase mb-10 pb-8 border-b border-caethem-border">Last Updated: April 22, 2024</p>
+                
+                <div class="space-y-8 text-caethem-textMuted text-base leading-relaxed">
+                    <p>Utilization of software ecosystems, APIs, and digital environments governed by <strong>CAETHEM DESIGN LIMITED</strong> implies your acceptance of the following operating conditions.</p>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">1. Software License (EULA)</h3>
+                        <p>We provide a restricted, non-transferable license to interface with our digital design utilities. Reverse engineering, API misuse, or commercial redistribution of our proprietary code is strictly prohibited.</p>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">2. Pre-Release Constraints</h3>
+                        <p>Systems designated as "Beta" or "In Engineering" are deployed as-is. CAETHEM DESIGN LIMITED accepts no liability for rendering failures, corporate data corruption, or downtime stemming from beta environment usage.</p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-display font-bold text-white mb-3">3. Legal Jurisdiction</h3>
+                        <p>These terms are governed exclusively by the laws of England and Wales. Any legal contestations shall be resolved within the courts of the United Kingdom.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-caethem-border bg-caethem-bg px-6 py-12 mt-auto relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm">
+            <div class="mb-6 md:mb-0 text-center md:text-left">
+                <span class="font-display font-bold text-white uppercase tracking-widest block mb-2 text-lg">CAETHEM DESIGN LIMITED</span>
+                <span class="text-caethem-textMuted font-mono text-xs">&copy; 2024-2026. All rights reserved.</span>
+            </div>
+            <div class="flex space-x-8">
+                <a href="#privacy" class="text-caethem-textMuted hover:text-white uppercase tracking-widest font-bold transition-colors">Privacy</a>
+                <a href="#terms" class="text-caethem-textMuted hover:text-white uppercase tracking-widest font-bold transition-colors">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SPA Router Script -->
+    <script>
+        function route() {
+            let hash = window.location.hash || '#home';
+            if (hash === '#' || hash === '') hash = '#home';
+
+            document.querySelectorAll('.spa-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            const targetView = document.querySelector('#view-' + hash.substring(1));
+            if (targetView) {
+                targetView.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                document.querySelector('#view-home').classList.add('active');
+                window.location.hash = '#home';
+            }
+        }
+
+        window.addEventListener('hashchange', route);
+        window.addEventListener('DOMContentLoaded', route);
+
+        const btn = document.getElementById('mobileMenuBtn');
+        const menu = document.getElementById('mobileMenu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
